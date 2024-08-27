@@ -1,0 +1,17 @@
+name: MythicControl
+version: '${project.version}'
+main: org.alvindimas05.mythiccontrol.MythicControlPlugin
+api-version: 1.21
+author: alvindimas05
+description: MythicControl Plugin lets your server receive keybind presses from the MythicControl client.
+softdepend: [ PlaceholderAPI, MythicMobs ]
+commands:
+  mythiccontrol:
+    description: The main command for MythicControl.
+    aliases: [ "ak", "keys" ]
+    permission: mythiccontrol.admin
+    usage: "Usage: /mythiccontrol [reload|info]"
+permissions:
+  mythiccontrol.admin:
+    description: The main permission for MythicControl.
+    default: op
