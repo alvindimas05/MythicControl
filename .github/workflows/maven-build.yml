@@ -24,6 +24,9 @@ jobs:
           distribution: 'temurin'
           server-id: mythiccontrol
           settings-path: ${{ github.workspace }}
+      - uses: SpraxDev/Action-SpigotMC@v5
+        with:
+          versions: 1.21.1
       - name: Build Mods with Maven
         run: mvn package
       - name: Upload artifacts
