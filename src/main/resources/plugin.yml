@@ -8,7 +8,7 @@ softdepend: [ PlaceholderAPI, MythicMobs ]
 commands:
   mythiccontrol:
     description: The main command for MythicControl.
-    aliases: [ "ak", "keys" ]
+    aliases: [ "mk", "controls" ]
     permission: mythiccontrol.admin
     usage: "Usage: /mythiccontrol [reload|info]"
 permissions:

@@ -19,7 +19,6 @@ public class MythicControlNetwork {
 	public static void receiveKeyPress(Player player, byte[] message) {
         // Read the key press ID then call the MythicControlPress event.
         String[] messages = new String(message, StandardCharsets.UTF_8).split("\\|");
-        Bukkit.getLogger().info("Received key event: " + Arrays.toString(messages));
         boolean firstPress = messages[1].equals("0");
 
         NamespacedKey id = NamespacedKey.fromString(messages[0].trim());
@@ -47,17 +46,28 @@ public class MythicControlNetwork {
 		 client. This is delayed to make sure the client is properly
 		 connected before attempting to send any data over. */
 		for (MythicControlInfo info : MythicControlPlugin.get().getConf().getKeyInfoList().values())
-			sendKeyInformation(player, info.getId(), info.getDef(), info.getName(), info.getCategory(), info.getModifiers());
+			sendKeyInformation(player, info.getId(), info.getDef(), info.getVoice(), info.getName(), info.getCategory(), info.getModifiers());
 
 		player.sendMessage(MythicControlChannels.LOAD_KEYS);
 	}
 
 	// Fk you buffer, makes my life harder
 	// Seperate with uncommon symbol "|"
-	public static void sendKeyInformation(Player player, NamespacedKey id, int def, String name, String category, Set<ModifierKey> modifiers) {
+	public static void sendKeyInformation(Player player, NamespacedKey id, Integer def, String voice,
+                                          String name, String category, Set<ModifierKey> modifiers) {
 		int[] modArray = modifiers.stream().mapToInt(ModifierKey::getId).toArray();
-		String message = MythicControlChannels.ADD_KEY + "|" + id.getNamespace() + ":" + id.getKey() + "|"
-				+ name + "|" + category + "|" + def + "|" + IntStream.of(modArray).mapToObj(Integer::toString)
+        String type;
+        if(def != null){
+            type = "type:key";
+        } else if(voice != null){
+            type = "type:voice";
+        } else {
+            Bukkit.getLogger().warning("Can't send this control because type is unknown: " + id.toString());
+            return;
+        }
+
+		String message = MythicControlChannels.ADD_KEY + "|" + type + "|" + id.getNamespace() + ":" + id.getKey() + "|"
+				+ name + "|" + category + "|" + def + "|" + voice + "|" + IntStream.of(modArray).mapToObj(Integer::toString)
 				.collect(Collectors.joining(","));
 		player.sendMessage(message);
 	}

@@ -16,11 +16,13 @@ import java.util.Set;
 
 @Getter
 public class MythicControlInfo {
-	private MythicControlInfo(NamespacedKey id, String name, String category, int def, Set<ModifierKey> modifiers, String command, String mythicPress, String mythicRelease) {
+	private MythicControlInfo(NamespacedKey id, String name, String category, @Nullable Integer def, @Nullable String voice,
+							  Set<ModifierKey> modifiers, String command, String mythicPress, String mythicRelease) {
 		this.id = id;
 		this.name = name;
 		this.category = category;
 		this.def = def;
+		this.voice = voice;
 		this.modifiers = modifiers;
 		this.command = command;
 		this.mythicPress = mythicPress;
@@ -29,7 +31,10 @@ public class MythicControlInfo {
 
 	private final NamespacedKey id;
 	private final String name, category, command, mythicPress, mythicRelease;
-	private final int def;
+	@Nullable
+	private final Integer def;
+	@Nullable
+	private final String voice;
 	private final Set<ModifierKey> modifiers;
 
 	// Using a static method to insert KeyInfo verification code.
@@ -40,12 +45,17 @@ public class MythicControlInfo {
 
 			String name;
 			String category;
-			int defaultKey;
+			Integer defaultKey = null;
+			String voice = null;
 
-			if (config.contains("Name") && config.contains("DefaultKey") && config.contains("Category")) {
+			if (config.contains("Name") && config.contains("Category")) {
 				name = config.getString("Name");
 				category = config.getString("Category");
-				defaultKey = config.getInt("DefaultKey");
+				if(config.contains("DefaultKey")){
+					defaultKey = config.getInt("DefaultKey");
+				} else if(config.contains("Voice")){
+					voice = config.getString("Voice");
+				}
 			} else if (key.getNamespace().equals("minecraft")) {
 				name = "name";
 				category = "category";
@@ -60,7 +70,7 @@ public class MythicControlInfo {
 				if (modKey != ModifierKey.NONE) modifiers.add(modKey);
 			}
 
-			return new MythicControlInfo(key, name, category, defaultKey, modifiers, config.getString("RunCommand", ""),
+			return new MythicControlInfo(key, name, category, defaultKey, voice, modifiers, config.getString("RunCommand", ""),
 					config.getString("SkillPress", ""), config.getString("SkillRelease", ""));
 		}
 

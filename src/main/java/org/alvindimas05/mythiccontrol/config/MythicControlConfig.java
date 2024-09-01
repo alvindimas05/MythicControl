@@ -19,7 +19,7 @@ public class MythicControlConfig {
 	public void reload(FileConfiguration config) {
 		eventOnCommand = config.getBoolean("run_event_on_command");
 		keyInfoList.clear();
-		ConfigurationSection keys = config.getConfigurationSection("Keys");
+		ConfigurationSection keys = config.getConfigurationSection("Controls");
 		if (keys == null) return;
 		for (String key : keys.getKeys(false)) {
 			if (keys.contains(key, true)) {

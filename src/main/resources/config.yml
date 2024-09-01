@@ -1,16 +1,16 @@
 # MythicControlPlugin
 # Made by alvindimas05
 
-# Config Version 4
+# Config Version 5
 
 # Whether the event should be fired or not
 # if a command was configured for the key ID.
 run_event_on_command: true
 
-# Input your desired keys here and the client mod
+# Input your desired controls like keys and voices word here and the client mod
 # will automatically grab these from the server and
 # allow the player to use, see and customize them.
-Keys:
+Controls:
   example_key: # Purely for organization. Can be named anything.
     Id: "myserver:mycoolkey" # The namespace and path of the pressed key which is passed to the event
     Name: "Example Key" # The name of this keybinding as displayed in the settings
@@ -23,14 +23,23 @@ Keys:
     #SkillPress: "RunWhenKeyPressed"
     #SkillRelease: "RunWhenKeyReleased"
     # If you have MythicMobs installed, you can specify an MM skill to be ran when a key is pressed or released.
+  example_voice:
+    Id: "examplevoice" # A path without a namespace will simply use the default namespace.
+    #This example ID will become: "mythiccontrol:examplevoice"
+    Name: "Example Voice"
+    Category: "Example Category"
+    Voice: "example"
+    RunCommand: "!msg %player% You are saying example! I wonder what is the example."
+    # Putting a ! as the first letter of the command will make it run from console.
   another_key:
-    Id: "examplekeytwo" # A key without a namespace will simply use the default namespace.
-    #This example ID will become: "mythiccontrol:examplekeytwo"
+    Type: key
+    Id: "examplekeytwo"
     Name: "Another Key"
     Category: "Example Category"
     DefaultKey: 77 # 77 is the M key
     Modifiers: [LEFT_SHIFT, LEFT_CTRL] # The keybindings that must also be held for this to work.
-    # See the wiki (https://github.com/ASangarin/MythicControl/wiki/Available-Modifiers) for available modifiers.
+    Voice: "example" # The voice will not work. The plugin prioritize key trigger first.
+    # See the wiki (https://github.com/ASangarin/AriKeys/wiki/Available-Modifiers) for available modifiers.
     RunCommand: "!msg %player% You pressed another example key. Nice."
     # Putting a ! as the first letter of the command will make it run from console.
   minecraft_key: # This doesn't have to be named "minecraft_key", you can implement any name that you want.
